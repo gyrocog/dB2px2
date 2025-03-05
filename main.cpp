@@ -7,7 +7,11 @@ class MyFrame : public wxFrame {
 public:
     MyFrame(const wxString& title)
         : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(480, 720), wxDEFAULT_FRAME_STYLE & ~(wxMAXIMIZE_BOX)) {
-        SetIcon(wxIcon("db2px2.ico", wxBITMAP_TYPE_ICO));
+        #ifdef __WXMSW__
+                SetIcon(wxIcon("db2px2.ico", wxBITMAP_TYPE_ICO));
+        #else
+                SetIcon(wxIcon("db2px2.png", wxBITMAP_TYPE_PNG));
+        #endif
         wxPanel* panel = new wxPanel(this);
         wxFont boldFont = wxFont(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
         wxStaticBox* paramBox = new wxStaticBox(panel, wxID_ANY, "Parameters", wxPoint(10, 10), wxSize(445, 120));
