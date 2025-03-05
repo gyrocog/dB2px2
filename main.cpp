@@ -1,22 +1,18 @@
 #include <wx/wx.h>
 #include <wx/grid.h>
-#include <wx/icon.h> // For icon support
+#include <wx/icon.h>
 #include <cmath>
 
 class MyFrame : public wxFrame {
 public:
     MyFrame(const wxString& title)
         : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(480, 720), wxDEFAULT_FRAME_STYLE & ~(wxMAXIMIZE_BOX)) {
-        SetIcon(wxIcon("db2px2.ico", wxBITMAP_TYPE_ICO)); // Load custom icon
-        // Main panel
+        SetIcon(wxIcon("db2px2.ico", wxBITMAP_TYPE_ICO));
         wxPanel* panel = new wxPanel(this);
-
-        // "Parameters" group with bold text
         wxFont boldFont = wxFont(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
-        wxStaticBox* paramBox = new wxStaticBox(panel, wxID_ANY, "Parameters", wxPoint(10, 10), wxSize(460, 120));
+        wxStaticBox* paramBox = new wxStaticBox(panel, wxID_ANY, "Parameters", wxPoint(10, 10), wxSize(445, 120));
         paramBox->SetFont(boldFont);
 
-        // Labels (right-aligned) and text boxes (bold input text)
         wxStaticText* label1 = new wxStaticText(panel, wxID_ANY, "Maximum Volume (dB):", wxPoint(20, 40), wxSize(120, -1), wxALIGN_RIGHT);
         mdbInput = new wxTextCtrl(panel, wxID_ANY, "", wxPoint(150, 40), wxSize(50, -1), 0, wxTextValidator(wxFILTER_DIGITS));
         mdbInput->SetMaxLength(2);
@@ -37,15 +33,13 @@ public:
         imglenInput->SetMaxLength(4);
         imglenInput->SetFont(boldFont);
 
-        // Buttons (more spaced, bold text)
         wxFont buttonFont = wxFont(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
         wxButton* calcButton = new wxButton(panel, wxID_ANY, "Calculate", wxPoint(130, 100), wxSize(70, -1));
         calcButton->SetFont(buttonFont);
         wxButton* clearButton = new wxButton(panel, wxID_ANY, "Clear", wxPoint(250, 100), wxSize(70, -1));
         clearButton->SetFont(buttonFont);
 
-        // Table (2 columns, fixed size, matching background)
-        grid = new wxGrid(panel, wxID_ANY, wxPoint(15, 140), wxSize(450, 570));
+        grid = new wxGrid(panel, wxID_ANY, wxPoint(15, 140), wxSize(450, 550));
         grid->CreateGrid(0, 2);
         grid->SetColLabelValue(0, "dB");
         grid->SetColLabelValue(1, "px");
@@ -62,7 +56,6 @@ public:
         grid->SetSelectionMode(wxGrid::wxGridSelectRows);
         grid->Hide();
 
-        // Disable resizing for all elements
         paramBox->SetWindowStyle(paramBox->GetWindowStyle() | wxST_NO_AUTORESIZE);
         mdbInput->SetWindowStyle(mdbInput->GetWindowStyle() | wxTE_NO_VSCROLL);
         ldbInput->SetWindowStyle(ldbInput->GetWindowStyle() | wxTE_NO_VSCROLL);
@@ -71,11 +64,9 @@ public:
         calcButton->SetWindowStyle(calcButton->GetWindowStyle() | wxBU_EXACTFIT);
         clearButton->SetWindowStyle(clearButton->GetWindowStyle() | wxBU_EXACTFIT);
 
-        // Lock frame size
         SetMinSize(wxSize(480, 720));
         SetMaxSize(wxSize(480, 720));
 
-        // Bind events
         calcButton->Bind(wxEVT_BUTTON, &MyFrame::OnCalculate, this);
         clearButton->Bind(wxEVT_BUTTON, &MyFrame::OnClear, this);
         grid->Bind(wxEVT_GRID_CELL_LEFT_CLICK, &MyFrame::OnGridClick, this);
